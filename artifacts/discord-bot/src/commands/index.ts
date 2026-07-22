@@ -6,6 +6,10 @@ import pingSlash from "./slash/ping.js";
 import helpSlash from "./slash/help.js";
 import serverinfoSlash from "./slash/serverinfo.js";
 import userinfoSlash from "./slash/userinfo.js";
+import balanceSlash from "./slash/balance.js";
+import dailySlash from "./slash/daily.js";
+import buySlash from "./slash/buy.js";
+import inventorySlash from "./slash/inventory.js";
 
 // Prefix commands
 import pingPrefix from "./prefix/ping.js";
@@ -18,7 +22,7 @@ export const slashCommands = new Collection<string, SlashCommand>();
 export const prefixCommands = new Collection<string, PrefixCommand>();
 
 // Register slash commands
-for (const cmd of [pingSlash, helpSlash, serverinfoSlash, userinfoSlash]) {
+for (const cmd of [pingSlash, helpSlash, serverinfoSlash, userinfoSlash, balanceSlash, dailySlash, buySlash, inventorySlash]) {
   slashCommands.set(cmd.data.name, cmd);
 }
 
