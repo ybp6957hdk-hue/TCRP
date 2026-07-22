@@ -8,6 +8,7 @@ export interface UserData {
   balance: number;
   inventory: string[];       // item IDs
   lastDaily: number | null;  // timestamp ms
+  job: string | null;        // current job title, or null if unemployed
 }
 
 interface DB {
@@ -27,7 +28,7 @@ function save(db: DB): void {
 export function getUser(userId: string): UserData {
   const db = load();
   if (!db.users[userId]) {
-    db.users[userId] = { balance: 0, inventory: [], lastDaily: null };
+    db.users[userId] = { balance: 0, inventory: [], lastDaily: null, job: null };
     save(db);
   }
   return db.users[userId];

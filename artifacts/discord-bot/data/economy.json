@@ -3,12 +3,14 @@
     "1529195095641948190": {
       "balance": 0,
       "inventory": [],
-      "lastDaily": null
+      "lastDaily": null,
+      "job": "Clothing Store Worker"
     },
     "1174093067167486042": {
       "balance": 0,
       "inventory": [],
-      "lastDaily": null
+      "lastDaily": null,
+      "job": "Store Worker"
     }
   }
 }

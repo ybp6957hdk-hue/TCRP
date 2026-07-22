@@ -13,6 +13,13 @@ const command: PrefixCommand = {
   usage: "stock",
 
   async execute(message: Message) {
+    const user = getUser(message.author.id);
+
+    if (!user.job) {
+      await message.reply("❌ You don't have a job! Use `/applyjob` to get employed first.");
+      return;
+    }
+
     const now = Date.now();
     const last = cooldowns.get(message.author.id) ?? 0;
     const remaining = COOLDOWN_MS - (now - last);
@@ -34,7 +41,6 @@ const command: PrefixCommand = {
 
     await sleep(1000);
 
-    const user = getUser(message.author.id);
     user.balance += earned;
     setUser(message.author.id, user);
 
