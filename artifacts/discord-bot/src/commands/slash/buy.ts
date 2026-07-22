@@ -23,10 +23,10 @@ const command: SlashCommand = {
     const shopEmbed = new EmbedBuilder()
       .setColor(0x5865f2)
       .setTitle("🛒 Shop")
-      .setDescription(`Your balance: **${user.balance.toLocaleString()} coins**\n\nSelect an item from the menu below to purchase it.`)
+      .setDescription(`Your balance: **$${user.balance.toLocaleString()}**\n\nSelect an item from the menu below to purchase it.`)
       .addFields(
         ITEMS.map((item) => ({
-          name: `${item.emoji} ${item.name} — ${item.price.toLocaleString()} coins`,
+          name: `${item.emoji} ${item.name} — $${item.price.toLocaleString()}`,
           value: item.description,
           inline: true,
         }))
@@ -39,7 +39,7 @@ const command: SlashCommand = {
       .setPlaceholder("Choose an item to buy…")
       .addOptions(
         ITEMS.map((item) => ({
-          label: `${item.name} — ${item.price.toLocaleString()} coins`,
+          label: `${item.name} — $${item.price.toLocaleString()}`,
           description: item.description,
           value: item.id,
           emoji: item.emoji,
@@ -72,7 +72,7 @@ const command: SlashCommand = {
           .setColor(0xe74c3c)
           .setTitle("❌ Insufficient Funds")
           .setDescription(
-            `You need **${item.price.toLocaleString()} coins** to buy **${item.name}**.\nYou only have **${fresh.balance.toLocaleString()} coins**.`
+            `You need **$${item.price.toLocaleString()}** to buy **${item.name}**.\nYou only have **$${fresh.balance.toLocaleString()}**.`
           );
         await selection.update({ embeds: [failEmbed], components: [] });
         return;
@@ -87,7 +87,7 @@ const command: SlashCommand = {
         .setColor(0x2ecc71)
         .setTitle("✅ Purchase Successful!")
         .setDescription(
-          `You bought **${item.emoji} ${item.name}** for **${item.price.toLocaleString()} coins**.\nRemaining balance: **${fresh.balance.toLocaleString()} coins**.`
+          `You bought **${item.emoji} ${item.name}** for **$${item.price.toLocaleString()}**.\nRemaining balance: **$${fresh.balance.toLocaleString()}**.`
         )
         .setTimestamp();
 

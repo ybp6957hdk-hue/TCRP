@@ -26,6 +26,9 @@ const command: SlashCommand = {
             "`/help` — Show this message",
             "`/serverinfo` — Show server information",
             "`/userinfo [user]` — Show user information",
+            "`/balance [user]` — Check your dollar balance",
+            "`/buy` — Open the shop",
+            "`/inventory [user]` — View purchased items",
           ].join("\n"),
         },
         {

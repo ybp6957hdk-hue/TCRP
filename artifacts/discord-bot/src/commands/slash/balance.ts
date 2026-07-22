@@ -17,7 +17,7 @@ const command: SlashCommand = {
     const embed = new EmbedBuilder()
       .setColor(0xf1c40f)
       .setTitle(`💰 ${target.username}'s Balance`)
-      .setDescription(`**${user.balance.toLocaleString()} coins**`)
+      .setDescription(`**$${user.balance.toLocaleString()}**`)
       .setThumbnail(target.displayAvatarURL())
       .setTimestamp();
 
