@@ -2,7 +2,9 @@ modules = ["nodejs-24"]
 
 [deployment]
 router = "application"
-deploymentTarget = "autoscale"
+deploymentTarget = "vm"
+build = ["pnpm", "--filter", "@workspace/discord-bot", "run", "build"]
+run = ["node", "artifacts/discord-bot/dist/index.js"]
 
 [deployment.postBuild]
 args = ["pnpm", "store", "prune"]
