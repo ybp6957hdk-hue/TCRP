@@ -6,16 +6,14 @@ import {
 import { SlashCommand } from "../../types.js";
 import { getUser, setUser } from "../../db.js";
 
-// Unlock chance: 47% (between 45–50%)
 const UNLOCK_CHANCE = 0.47;
 
-// Outcomes when car is unlocked (must sum to 1.0)
-// 10% Glock17, 25% cocaine, 30% weed, 35% cash
 const OUTCOMES = [
-  { type: "item",  id: "glock17", name: "Glock 17", emoji: "🔫", weight: 0.10 },
-  { type: "item",  id: "cocaine", name: "Cocaine",  emoji: "❄️", weight: 0.25 },
-  { type: "item",  id: "weed",    name: "Weed",     emoji: "🌿", weight: 0.30 },
-  { type: "cash",  id: "cash",    name: "Cash",     emoji: "💵", weight: 0.35 },
+  { type: "item",    id: "glock17", name: "Glock 17", emoji: "🔫", weight: 0.10 },
+  { type: "item",    id: "cocaine", name: "Cocaine",  emoji: "❄️", weight: 0.25 },
+  { type: "item",    id: "weed",    name: "Weed",     emoji: "🌿", weight: 0.30 },
+  { type: "cash",    id: "cash",    name: "Cash",     emoji: "💵", weight: 0.20 },
+  { type: "nothing", id: "nothing", name: "Nothing",  emoji: "😔", weight: 0.15 },
 ];
 
 function rollOutcome() {
@@ -41,7 +39,7 @@ const command: SlashCommand = {
           new EmbedBuilder()
             .setColor(0xe74c3c)
             .setTitle("🚗 Car Search")
-            .setDescription("🔒 The car is **locked**. Nothing to find here.")
+            .setDescription("You try the door...\n🔒 **The car is locked.** Move along.")
             .setTimestamp(),
         ],
       });
@@ -61,11 +59,16 @@ const command: SlashCommand = {
           new EmbedBuilder()
             .setColor(0x2ecc71)
             .setTitle("🚗 Car Search")
-            .setDescription(`🔓 The car is **unlocked!**\n\n💵 You found **$${amount}** inside!\nNew balance: **$${user.balance.toLocaleString()}**.`)
+            .setDescription(
+              `You try the door...\n🔓 **The car is unlocked!**\n\n` +
+              `You search inside and find **💵 $${amount} cash!**\n` +
+              `New balance: **$${user.balance.toLocaleString()}**`
+            )
             .setTimestamp(),
         ],
       });
-    } else {
+
+    } else if (outcome.type === "item") {
       user.inventory.push(outcome.id);
       setUser(interaction.user.id, user);
 
@@ -74,7 +77,25 @@ const command: SlashCommand = {
           new EmbedBuilder()
             .setColor(0x9b59b6)
             .setTitle("🚗 Car Search")
-            .setDescription(`🔓 The car is **unlocked!**\n\n${outcome.emoji} You found a **${outcome.name}** inside!\nIt's been added to your inventory.`)
+            .setDescription(
+              `You try the door...\n🔓 **The car is unlocked!**\n\n` +
+              `You search inside and find **${outcome.emoji} ${outcome.name}!**\n` +
+              `It's been added to your inventory.`
+            )
+            .setTimestamp(),
+        ],
+      });
+
+    } else {
+      await interaction.reply({
+        embeds: [
+          new EmbedBuilder()
+            .setColor(0x95a5a6)
+            .setTitle("🚗 Car Search")
+            .setDescription(
+              `You try the door...\n🔓 **The car is unlocked!**\n\n` +
+              `😔 You search everywhere but find **nothing useful** inside.`
+            )
             .setTimestamp(),
         ],
       });
