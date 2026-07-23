@@ -19,6 +19,7 @@ export function registerMessageEvent(client: Client) {
       await command.execute(message, args);
     } catch (error) {
       console.error(`Error in prefix command ${PREFIX}${commandName}:`, error);
+      console.error("Message author:", message.author.tag, "| Guild:", message.guild?.name ?? "DM");
       await message.reply("An error occurred while running this command.").catch(() => null);
     }
   });

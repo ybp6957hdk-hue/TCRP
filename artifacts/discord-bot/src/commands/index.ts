@@ -20,6 +20,7 @@ import sayPrefix from "./prefix/say.js";
 import avatarPrefix from "./prefix/avatar.js";
 import strikePrefix from "./prefix/strike.js";
 import stockPrefix from "./prefix/stock.js";
+import applyJobPrefix from "./prefix/applyjob.js";
 
 export const slashCommands = new Collection<string, SlashCommand>();
 export const prefixCommands = new Collection<string, PrefixCommand>();
@@ -30,7 +31,7 @@ for (const cmd of [pingSlash, helpSlash, serverinfoSlash, userinfoSlash, applyJo
 }
 
 // Register prefix commands (including aliases)
-for (const cmd of [pingPrefix, helpPrefix, sayPrefix, avatarPrefix, strikePrefix, stockPrefix]) {
+for (const cmd of [pingPrefix, helpPrefix, sayPrefix, avatarPrefix, strikePrefix, stockPrefix, applyJobPrefix]) {
   prefixCommands.set(cmd.name, cmd);
   if (cmd.aliases) {
     for (const alias of cmd.aliases) {
