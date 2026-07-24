@@ -1,33 +1,44 @@
-import "dotenv/config";
-import { Client, GatewayIntentBits, Partials } from "discord.js";
-import { TOKEN } from "./config.js";
-import { registerReadyEvent } from "./events/ready.js";
-import { registerInteractionEvent } from "./events/interactionCreate.js";
-import { registerMessageEvent } from "./events/messageCreate.js";
+import { Collection } from "discord.js";
+import { SlashCommand, PrefixCommand } from "../types.js";
 
-if (!TOKEN) {
-  console.error("❌ DISCORD_BOT_TOKEN is not set. Please add it to your environment secrets.");
-  process.exit(1);
+// Slash commands
+import pingSlash from "./slash/ping.js";
+import helpSlash from "./slash/help.js";
+import serverinfoSlash from "./slash/serverinfo.js";
+import userinfoSlash from "./slash/userinfo.js";
+import applyJobSlash from "./slash/applyjob.js";
+import balanceSlash from "./slash/balance.js";
+import buySlash from "./slash/buy.js";
+import buyDrugsSlash from "./slash/buydrugs.js";
+import sellSlash from "./slash/sell.js";
+import stockSlash from "./slash/stock.js";
+import quitJobSlash from "./slash/quitjob.js";
+import searchCarSlash from "./slash/searchcar.js";
+import inventorySlash from "./slash/inventory.js";
+import vehiclesSlash from "./slash/vehicle.js";
+
+// Prefix commands
+import pingPrefix from "./prefix/ping.js";
+import helpPrefix from "./prefix/help.js";
+import sayPrefix from "./prefix/say.js";
+import avatarPrefix from "./prefix/avatar.js";
+import strikePrefix from "./prefix/strike.js";
+import applyJobPrefix from "./prefix/applyjob.js";
+
+export const slashCommands = new Collection<string, SlashCommand>();
+export const prefixCommands = new Collection<string, PrefixCommand>();
+
+// Register slash commands
+for (const cmd of [pingSlash, helpSlash, serverinfoSlash, userinfoSlash, applyJobSlash, balanceSlash, buySlash, buyDrugsSlash, sellSlash, stockSlash, quitJobSlash, searchCarSlash, inventorySlash, vehiclesSlash]) {
+  slashCommands.set(cmd.data.name, cmd);
 }
 
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    // MessageContent is a privileged intent — must be enabled in the
-    // Discord Developer Portal → Bot → Privileged Gateway Intents
-    GatewayIntentBits.MessageContent,
-  ],
-  partials: [Partials.Message, Partials.Channel],
-});
-
-// Register event handlers
-registerReadyEvent(client);
-registerInteractionEvent(client);
-registerMessageEvent(client);
-
-// Login
-client.login(TOKEN).catch((error) => {
-  console.error("❌ Failed to login:", error.message);
-  process.exit(1);
-});
+// Register prefix commands (including aliases)
+for (const cmd of [pingPrefix, helpPrefix, sayPrefix, avatarPrefix, strikePrefix, applyJobPrefix]) {
+  prefixCommands.set(cmd.name, cmd);
+  if (cmd.aliases) {
+    for (const alias of cmd.aliases) {
+      prefixCommands.set(alias, cmd);
+    }
+  }
+}
