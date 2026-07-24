@@ -15,6 +15,7 @@ import stockSlash from "./slash/stock.js";
 import quitJobSlash from "./slash/quitjob.js";
 import searchCarSlash from "./slash/searchcar.js";
 import inventorySlash from "./slash/inventory.js";
+import vehiclesSlash from "./slash/vehicles.js";
 
 // Prefix commands
 import pingPrefix from "./prefix/ping.js";
